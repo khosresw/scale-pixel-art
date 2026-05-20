@@ -1,7 +1,7 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-const pixelSize = 14;
+const pixelSize = 10;
 
 const sprite = [
 "...........66666",
