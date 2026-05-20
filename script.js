@@ -34,7 +34,7 @@ const colors = {
     "e": "#00aa00"
 };
 
-const scale = 2.8;
+const scale = 1.8;
 
 const width = sprite[0].length * pixelSize * scale;
 const height = sprite.length * pixelSize * scale;
