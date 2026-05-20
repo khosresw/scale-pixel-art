@@ -37,6 +37,46 @@ const colors = {
 let scale = 1.8;
 
 //
+// CHECK IF PIXEL IS OUTER PIXEL
+//
+function isOuterPixel(spriteData, x, y){
+
+    const current = spriteData[y][x];
+
+    if(current === ".") return false;
+
+    const directions = [
+        [0,-1], // top
+        [0,1],  // bottom
+        [-1,0], // left
+        [1,0]   // right
+    ];
+
+    for(let dir of directions){
+
+        const nx = x + dir[0];
+        const ny = y + dir[1];
+
+        // outside sprite bounds
+        if(
+            ny < 0 ||
+            ny >= spriteData.length ||
+            nx < 0 ||
+            nx >= spriteData[y].length
+        ){
+            return true;
+        }
+
+        // touching transparent space
+        if(spriteData[ny][nx] === "."){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//
 // PIXELIZE FUNCTION
 //
 function pixelize(spriteData, pixelSize, scale){
@@ -56,7 +96,8 @@ function pixelize(spriteData, pixelSize, scale){
                     x: x * pixelSize * scale,
                     y: y * pixelSize * scale,
                     size: pixelSize * scale,
-                    color: color
+                    color: color,
+                    outer: isOuterPixel(spriteData, x, y)
                 });
             }
         }
@@ -75,11 +116,25 @@ function drawSprite(){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    // Generate pixel objects
     const pixels = pixelize(sprite, pixelSize, scale);
 
-    // Draw all pixels
     pixels.forEach(pixel => {
+
+        //
+        // OUTER PIXEL SHADOW
+        //
+        if(pixel.outer){
+
+            ctx.shadowColor = "rgba(0,0,0,0.7)";
+            ctx.shadowBlur = 8 * scale;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+
+        } else {
+
+            ctx.shadowColor = "transparent";
+            ctx.shadowBlur = 0;
+        }
 
         ctx.fillStyle = pixel.color;
 
@@ -91,7 +146,11 @@ function drawSprite(){
         );
     });
 
-    // Scale display text
+    // Reset shadows
+    ctx.shadowColor = "transparent";
+    ctx.shadowBlur = 0;
+
+    // Scale text
     ctx.fillStyle = "white";
     ctx.font = "20px Arial";
     ctx.fillText("Scale: " + scale.toFixed(1), 10, 25);
