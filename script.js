@@ -34,19 +34,21 @@ const colors = {
     "e": "#00aa00"
 };
 
-const scale = 1.8;
+let scale = 1.8;
 
-const width = sprite[0].length * pixelSize * scale;
-const height = sprite.length * pixelSize * scale;
+function resizeCanvas(){
 
-canvas.width = width;
-canvas.height = height;
+    canvas.width = sprite[0].length * pixelSize * scale;
+    canvas.height = sprite.length * pixelSize * scale;
+}
 
-function drawSprite() {
+function drawSprite(){
 
-    for(let y = 0; y < sprite.length; y++) {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-        for(let x = 0; x < sprite[y].length; x++) {
+    for(let y = 0; y < sprite.length; y++){
+
+        for(let x = 0; x < sprite[y].length; x++){
 
             const pixel = sprite[y][x];
             const color = colors[pixel];
@@ -64,6 +66,36 @@ function drawSprite() {
             }
         }
     }
+
+    // Scale text
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.fillText("Scale: " + scale.toFixed(1), 10, 25);
 }
 
-drawSprite();
+function updateSprite(){
+    resizeCanvas();
+    drawSprite();
+}
+
+document.addEventListener("keydown", (e)=>{
+
+    if(e.key === "ArrowRight"){
+
+        scale += 0.2;
+        updateSprite();
+    }
+
+    if(e.key === "ArrowLeft"){
+
+        scale -= 0.2;
+
+        if(scale < 0.2){
+            scale = 0.2;
+        }
+
+        updateSprite();
+    }
+});
+
+updateSprite();
