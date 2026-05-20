@@ -183,3 +183,53 @@ document.addEventListener("keydown", (e)=>{
 });
 
 updateSprite();
+
+//
+// MOBILE TOUCH SUPPORT
+//
+
+let lastTouchX = null;
+
+canvas.addEventListener("touchstart", (e)=>{
+
+    lastTouchX = e.touches[0].clientX;
+
+});
+
+canvas.addEventListener("touchmove", (e)=>{
+
+    e.preventDefault();
+
+    const touchX = e.touches[0].clientX;
+
+    const deltaX = touchX - lastTouchX;
+
+    // swipe right = scale up
+    if(deltaX > 5){
+
+        scale += 0.05;
+
+    }
+
+    // swipe left = scale down
+    if(deltaX < -5){
+
+        scale -= 0.05;
+
+        if(scale < 0.2){
+            scale = 0.2;
+        }
+    }
+
+    lastTouchX = touchX;
+
+    updateSprite();
+
+}, { passive:false });
+
+canvas.addEventListener("touchend", ()=>{
+
+    lastTouchX = null;
+
+});
+
