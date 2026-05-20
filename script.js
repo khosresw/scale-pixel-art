@@ -36,6 +36,35 @@ const colors = {
 
 let scale = 1.8;
 
+//
+// PIXELIZE FUNCTION
+//
+function pixelize(spriteData, pixelSize, scale){
+
+    const pixels = [];
+
+    for(let y = 0; y < spriteData.length; y++){
+
+        for(let x = 0; x < spriteData[y].length; x++){
+
+            const symbol = spriteData[y][x];
+            const color = colors[symbol];
+
+            if(color){
+
+                pixels.push({
+                    x: x * pixelSize * scale,
+                    y: y * pixelSize * scale,
+                    size: pixelSize * scale,
+                    color: color
+                });
+            }
+        }
+    }
+
+    return pixels;
+}
+
 function resizeCanvas(){
 
     canvas.width = sprite[0].length * pixelSize * scale;
@@ -46,34 +75,30 @@ function drawSprite(){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    for(let y = 0; y < sprite.length; y++){
+    // Generate pixel objects
+    const pixels = pixelize(sprite, pixelSize, scale);
 
-        for(let x = 0; x < sprite[y].length; x++){
+    // Draw all pixels
+    pixels.forEach(pixel => {
 
-            const pixel = sprite[y][x];
-            const color = colors[pixel];
+        ctx.fillStyle = pixel.color;
 
-            if(color){
+        ctx.fillRect(
+            pixel.x,
+            pixel.y,
+            pixel.size,
+            pixel.size
+        );
+    });
 
-                ctx.fillStyle = color;
-
-                ctx.fillRect(
-                    x * pixelSize * scale,
-                    y * pixelSize * scale,
-                    pixelSize * scale,
-                    pixelSize * scale
-                );
-            }
-        }
-    }
-
-    // Scale text
+    // Scale display text
     ctx.fillStyle = "white";
     ctx.font = "20px Arial";
     ctx.fillText("Scale: " + scale.toFixed(1), 10, 25);
 }
 
 function updateSprite(){
+
     resizeCanvas();
     drawSprite();
 }
