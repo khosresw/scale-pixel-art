@@ -1,0 +1,14 @@
+body{
+    background:#222;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.pixel-art{
+    width:20px;
+    height:20px;
+    background:#000;
+}
