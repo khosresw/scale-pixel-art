@@ -1,32 +1,69 @@
-const pixelArt = document.getElementById("pixelArt");
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-pixelArt.style.boxShadow = `
-20px 0 #000,
-40px 0 #000,
-60px 0 #000,
-80px 0 #000,
+const pixelSize = 14;
 
-0 20px #000,
-20px 20px #fff,
-40px 20px #fff,
-60px 20px #fff,
-80px 20px #000,
+const sprite = [
+"...........66666",
+".........6677778",
+"......8887788688",
+"..eeeec6688.878.",
+".e2542ec8...678.",
+"e2422222c...678.",
+"e2222222c...868.",
+"e2ee2222eeeec68.",
+"c2ee2222e2542c8.",
+".c2eee2e242222c.",
+"..c222ee2222222e",
+"...eccec2222222e",
+".......c2ee22e2c",
+".......ceeeeee2c",
+"........ce2222c.",
+".........ccccc.."
+];
 
-0 40px #000,
-20px 40px #fff,
-40px 40px #000,
-60px 40px #fff,
-80px 40px #000,
+const colors = {
+    ".": null,
+    "2": "#ffccaa",
+    "4": "#aa6644",
+    "5": "#ff7777",
+    "6": "#66ccff",
+    "7": "#2288ff",
+    "8": "#ffffff",
+    "c": "#884400",
+    "e": "#00aa00"
+};
 
-0 60px #000,
-20px 60px #fff,
-40px 60px #fff,
-60px 60px #fff,
-80px 60px #000,
+const scale = 2.8;
 
-0 80px #000,
-20px 80px #000,
-40px 80px #000,
-60px 80px #000,
-80px 80px #000
-`;
+const width = sprite[0].length * pixelSize * scale;
+const height = sprite.length * pixelSize * scale;
+
+canvas.width = width;
+canvas.height = height;
+
+function drawSprite() {
+
+    for(let y = 0; y < sprite.length; y++) {
+
+        for(let x = 0; x < sprite[y].length; x++) {
+
+            const pixel = sprite[y][x];
+            const color = colors[pixel];
+
+            if(color){
+
+                ctx.fillStyle = color;
+
+                ctx.fillRect(
+                    x * pixelSize * scale,
+                    y * pixelSize * scale,
+                    pixelSize * scale,
+                    pixelSize * scale
+                );
+            }
+        }
+    }
+}
+
+drawSprite();
