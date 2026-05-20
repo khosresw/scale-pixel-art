@@ -24,7 +24,7 @@ const sprite = [
 
 const colors = {
     ".": null,
-    "2": "#ffccaa",
+    "2": "#ff0000",
     "4": "#aa6644",
     "5": "#ff0000",
     "6": "#66ccff",
