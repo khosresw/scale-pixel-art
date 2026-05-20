@@ -14,6 +14,12 @@ canvas{
     border:2px solid white;
     image-rendering: pixelated;
     background:#111;
+
+    /* BOX SHADOW */
+    box-shadow:
+        0 0 10px rgba(255,255,255,0.3),
+        0 0 20px rgba(255,255,255,0.2),
+        0 0 40px rgba(0,150,255,0.3);
 }
 
 .info{
